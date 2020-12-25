@@ -142,15 +142,11 @@ export default {
 		},
 
 		async getQuestions(sound) {
-			this.loadData = true;
-			let res = await this.$store.dispatch("loadData");
-			if (res) {
-				setTimeout(() => {
-					this.loadData = false;
-					this.$router.push("questions/" + res.id);
-				}, 3000);
-			}
 			this.playAudio(sound);
+			this.loadData = true;
+			let random_id = Math.floor(Math.random() * 2) + 1;
+			this.$router.replace(`/questions/${random_id}`);
+			this.$store.commit("SET_IS_STARTED", true);
 		},
 	},
 
