@@ -16,10 +16,9 @@
 		</div>
 		<div class="fixed bottom-0 w-full p-4">
 			<button
-				class="relative mb-3 w-full h-14 scale-on-click"
+				class="relative mb-3 w-full h-14 scale-on-click z-0"
 				v-for="answer in answers"
 				:key="answer.id"
-				@click="checked(answer.id)"
 			>
 				<input
 					ref="radio"
@@ -27,21 +26,25 @@
 					type="radio"
 					:value="answer"
 					v-model="choice"
-					class="appearance-none absolute w-full h-full top-0 left-0 bg-white shadow-light rounded-xl checked:bg-gray-100"
+					class="appearance-none absolute w-full h-full top-0 left-0 bg-white shadow-light rounded-xl checked:bg-gray-100 z-10"
 				/>
 				<div
+					@click="checked(answer.id)"
 					:id="answer.id"
 					ref="label"
-					class="content absolute flex items-center w-full h-full top-0 left-0 px-5"
+					class="content absolute flex items-center w-full h-full top-0 left-0 px-5 z-10"
 				>
 					<p class="font-bold text-lg">{{ answer.selector }}</p>
 					<p class="text-sm w-full text-center">{{ answer.text }}</p>
 				</div>
 			</button>
 		</div>
-		<audio ref="sound" src="@/assets/answer1.mp3"></audio>
-		<audio ref="sound" src="@/assets/answer2.mp3"></audio>
-		<audio ref="sound" src="@/assets/answer3.mp3"></audio>
+		<audio
+			v-for="audio in audios"
+			:key="audio.file"
+			ref="sn"
+			:src="audio.file"
+		></audio>
 	</div>
 </template>
 
@@ -61,6 +64,20 @@ export default {
 	data() {
 		return {
 			choice: null,
+			audios: [
+				{
+					file: require("@/assets/answer1.mp3"),
+				},
+				{
+					file: require("@/assets/answer2.mp3"),
+				},
+				{
+					file: require("@/assets/answer3.mp3"),
+				},
+				{
+					file: require("@/assets/answer4.mp3"),
+				},
+			],
 		};
 	},
 
@@ -70,6 +87,8 @@ export default {
 
 	methods: {
 		checked(id) {
+			let sn = this.$refs.sn;
+			console.log(sn);
 			let ref_radio = this.$refs.radio;
 			let ref_label = this.$refs.label;
 			let radio = ref_radio.find((re) => re.id == id);
@@ -103,8 +122,8 @@ export default {
 			}
 		},
 		playAudio(index) {
-			let audio = this.$refs.audio;
-			console.log(audio);
+			let sn = this.$refs.sn;
+			sn[index].play();
 		},
 		/*choice(is_correct) {
 			this.correct = is_correct;
