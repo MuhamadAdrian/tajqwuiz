@@ -35,7 +35,9 @@
 					class="content absolute flex items-center w-full h-full top-0 left-0 px-5 z-10"
 				>
 					<p class="font-bold text-lg">{{ answer.selector }}</p>
-					<p class="text-sm w-full text-center">{{ answer.text }}</p>
+					<p class="text-sm w-full text-center">
+						{{ answer.text }}
+					</p>
 				</div>
 			</button>
 		</div>
@@ -44,6 +46,7 @@
 			:key="audio.file"
 			ref="sn"
 			:src="audio.file"
+			preload
 		></audio>
 	</div>
 </template>
@@ -51,7 +54,9 @@
 <script>
 import { mapState } from "vuex";
 import { Howl, Howler } from "howler";
+import index from "../index.vue";
 export default {
+	components: { index },
 	async asyncData({ store, params, error }) {
 		try {
 			let res = await store.dispatch("loadData", params.id);
@@ -88,7 +93,6 @@ export default {
 	methods: {
 		checked(id) {
 			let sn = this.$refs.sn;
-			console.log(sn);
 			let ref_radio = this.$refs.radio;
 			let ref_label = this.$refs.label;
 			let radio = ref_radio.find((re) => re.id == id);
@@ -134,17 +138,27 @@ export default {
 	mounted() {
 		let radio = this.$refs.radio;
 		let label = this.$refs.label;
-		console.log(this.$refs.audio);
-
-		label[0].classList.add("text-red-400");
-		label[1].classList.add("text-indigo-400");
-		label[2].classList.add("text-yellow-400");
-		label[3].classList.add("text-green-400");
-
-		radio[0].classList.add("checked:bg-red-400", "checked:text-white");
-		radio[1].classList.add("checked:bg-indigo-400", "checked:text-white");
-		radio[2].classList.add("checked:bg-yellow-400", "checked:text-white");
-		radio[3].classList.add("checked:bg-green-400", "checked:text-white");
+		if (label) {
+			label[0].classList.add("text-red-400");
+			label[1].classList.add("text-indigo-400");
+			label[2].classList.add("text-yellow-400");
+			label[3].classList.add("text-green-400");
+		}
+		if (radio) {
+			radio[0].classList.add("checked:bg-red-400", "checked:text-white");
+			radio[1].classList.add(
+				"checked:bg-indigo-400",
+				"checked:text-white"
+			);
+			radio[2].classList.add(
+				"checked:bg-yellow-400",
+				"checked:text-white"
+			);
+			radio[3].classList.add(
+				"checked:bg-green-400",
+				"checked:text-white"
+			);
+		}
 	},
 };
 </script>
