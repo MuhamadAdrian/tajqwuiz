@@ -67,9 +67,9 @@
 		</div>
 		<div class="fixed bottom-0 w-full p-4">
 			<input
-				@click="$refs.sound[0].play()"
-				@keydown="$refs.sound[1].play()"
-				@keydown.delete="$refs.sound[2].play()"
+				@click="playAudio(button_clicked)"
+				@keydown="playAudio(keydown)"
+				@keydown.delete="playAudio(backspace)"
 				type="text"
 				class="p-4 rounded-2xl dark:text-gray-100 text-sm border-2 dark:bg-gray-800 border-transparent focus:border-indigo-600 bg-white shadow-light w-full mb-4 scale-on-click"
 				placeholder="Masukan Nama"
@@ -87,13 +87,6 @@
 				<span v-if="!loadData">Mulai</span>
 			</button>
 		</div>
-		<audio
-			ref="sound"
-			preload
-			v-for="audio in audios"
-			:key="audio.file"
-			:src="audio.file"
-		></audio>
 	</div>
 </template>
 
@@ -107,24 +100,10 @@ export default {
 	},
 	data() {
 		return {
-			audios: [
-				{
-					file: require("@/assets/button-clicked.mp3"),
-				},
-				{
-					file: require("@/assets/keydown.mp3"),
-				},
-				{
-					file: require("@/assets/backspace.mp3"),
-				},
-				{
-					file: require("@/assets/switch-theme.mp3"),
-				},
-			],
-			//button_clicked: "audio/button-clicked.mp3",
-			//keydown: "audio/keydown.mp3",
-			//backspace: "audio/backspace.mp3",
-			//switch_theme: "audio/switch-theme.mp3",
+			button_clicked: require("@/assets/button-clicked.mp3"),
+			keydown: require("@/assets/keydown.mp3"),
+			backspace: require("@/assets/backspace.mp3"),
+			switch_theme: require("@/assets/switch-theme.mp3"),
 		};
 	},
 
@@ -152,20 +131,16 @@ export default {
 	methods: {
 		toggleTheme() {
 			this.is_dark = !this.is_dark;
-			const sound = this.$refs.sound;
-			sound[3].play();
+			this.playAudio(this.switch_theme);
 		},
 
-		playAudio(sound) {
-			let audio = new Howl({
-				src: [sound],
-			});
-			audio.play();
+		playAudio(file) {
+			let sound = new Audio(file);
+			sound.play();
 		},
 
 		async getQuestions() {
-			const sound = this.$refs.sound;
-			sound[0].play();
+			this.playAudio(this.button_clicked);
 			this.loadData = true;
 			let random_id = Math.floor(Math.random() * 2) + 1;
 			this.$router.replace(`/questions/${random_id}`);
