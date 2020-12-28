@@ -4,11 +4,22 @@
 	transition: all 0.3s ease;
 }
 .slide-leave-active {
-	transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+	transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-enter, .slide-fade-leave-to
+.slide-enter, .slide-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
 	transform: translateX(10px);
+	opacity: 0;
+}
+.slide-up-enter-active {
+	transition: all 0.3s ease;
+}
+.slide-up-leave-active {
+	transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-up-enter, .slide-up-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+	transform: translateY(10px);
 	opacity: 0;
 }
 

@@ -44,12 +44,40 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+
+    "@nuxtjs/auth-next"
   ],
+
+  auth: {
+    redirect: {
+      login: "/030902/login",
+      logout: "/030902/login",
+      callback: "/030902/login",
+      home: "/030902/admin"
+    },
+    strategies: {
+      local: {
+        token: {
+          required: false,
+          type: false
+        },
+        user: {
+          property: false
+        },
+        endpoints: {
+          login: { url: "/login", method: "post" },
+          logout: { url: "/logout", method: "post" },
+          user: { url: "/api/user", method: "get" }
+        }
+      }
+    }
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: "https://aqueous-badlands-80098.herokuapp.com"
+    baseURL: "http://localhost:8000",
+    credentials: true
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

@@ -1,7 +1,8 @@
 <template>
 	<div class="bg-gray-50 dark:bg-gray-900 bg-opacity-40 h-screen">
 		<header class="flex items-center justify-between p-5">
-			<div class="left logo">Pertanyaan #{{ question.id }}</div>
+			<div class="left logo">Pertanyaan #{{ number }}</div>
+			<p class="text-xs text-gray-400">play as {{ player_name }}</p>
 		</header>
 		<div class="main container mx-auto px-4">
 			<div class="content mb-20">
@@ -41,29 +42,25 @@
 				</div>
 			</button>
 		</div>
-		<audio
-			v-for="audio in audios"
-			:key="audio.file"
-			ref="sn"
-			:src="audio.file"
-			preload
-		></audio>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { Howl, Howler } from "howler";
-import index from "../index.vue";
 export default {
-	components: { index },
+	middleware: "player",
+	transition: "slide",
 	async asyncData({ store, params, error }) {
-		try {
-			let res = await store.dispatch("loadData", params.id);
-			console.log(res);
-		} catch (err) {
-			console.log(err);
-		}
+		let number = params.id;
+		const question = store.state.questions[params.id - 1];
+		await store.dispatch("getAnswers", question.id);
+		const answers = store.state.answer;
+		return {
+			number,
+			question,
+			answers,
+		};
 	},
 
 	data() {
@@ -87,10 +84,19 @@ export default {
 	},
 
 	computed: {
-		...mapState(["question", "answers"]),
+		...mapState(["countdown", "player_name"]),
 	},
 
 	methods: {
+		nextQuestion() {
+			let nextPage = parseInt(this.number) + 1;
+			if (this.choice.is_correct) {
+				console.log("Kamu Benar");
+			} else {
+				console.log("Ups Salah");
+			}
+			this.$router.replace("/questions/" + nextPage);
+		},
 		checked(id) {
 			let sn = this.$refs.sn;
 			let ref_radio = this.$refs.radio;
@@ -126,8 +132,14 @@ export default {
 			}
 		},
 		playAudio(index) {
-			let sn = this.$refs.sn;
-			sn[index].play();
+			let source = this.audios[index].file;
+			let audio = new Audio(source);
+			audio.play();
+		},
+		async playCountDown() {
+			if (this.countdown != null) {
+				this.$store.dispatch("decrementCountdown");
+			}
 		},
 		/*choice(is_correct) {
 			this.correct = is_correct;
@@ -136,6 +148,7 @@ export default {
 	},
 
 	mounted() {
+		//this.playCountDown();
 		let radio = this.$refs.radio;
 		let label = this.$refs.label;
 		if (label) {

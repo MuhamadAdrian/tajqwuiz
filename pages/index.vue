@@ -67,6 +67,7 @@
 		</div>
 		<div class="fixed bottom-0 w-full p-4">
 			<input
+				v-model="name"
 				@click="playAudio(button_clicked)"
 				@keydown="playAudio(keydown)"
 				@keydown.delete="playAudio(backspace)"
@@ -87,6 +88,7 @@
 				<span v-if="!loadData">Mulai</span>
 			</button>
 		</div>
+		<Toast :text="error_message"></Toast>
 	</div>
 </template>
 
@@ -95,6 +97,7 @@ import { mapMutations, mapState } from "vuex";
 import { Howl, Howler } from "howler";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 export default {
+	transition: "slide",
 	components: {
 		PulseLoader,
 	},
@@ -104,6 +107,8 @@ export default {
 			keydown: require("@/assets/keydown.mp3"),
 			backspace: require("@/assets/backspace.mp3"),
 			switch_theme: require("@/assets/switch-theme.mp3"),
+			name: "",
+			error_message: null,
 		};
 	},
 
@@ -141,10 +146,18 @@ export default {
 
 		async getQuestions() {
 			this.playAudio(this.button_clicked);
-			this.loadData = true;
-			let random_id = Math.floor(Math.random() * 2) + 1;
-			this.$router.replace(`/questions/${random_id}`);
-			this.$store.commit("SET_IS_STARTED", true);
+			if (!this.name) {
+				this.error_message =
+					"Please fill the name before you start the quiz";
+			} else {
+				this.loadData = true;
+				this.$store.commit("SET_PLAYER_NAME", this.name);
+				await this.$store.dispatch("loadData");
+				let question = this.$store.state.questions[0];
+				let slug = question.text.replace(/\s/g, "-");
+				this.$router.replace(`/questions/${1}/${slug}`);
+				this.$store.commit("SET_IS_STARTED", true);
+			}
 		},
 	},
 
@@ -156,6 +169,12 @@ export default {
 			} else {
 				html.classList.remove("dark");
 			}
+		},
+
+		error_message(text) {
+			setTimeout(() => {
+				this.error_message = null;
+			}, 3000);
 		},
 	},
 
