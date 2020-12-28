@@ -72,13 +72,13 @@
 				@keydown="playAudio(keydown)"
 				@keydown.delete="playAudio(backspace)"
 				type="text"
-				class="p-4 rounded-2xl dark:text-gray-100 text-sm border-2 dark:bg-gray-800 border-transparent focus:border-indigo-600 bg-white shadow-light w-full mb-4 scale-on-click"
+				class="p-4 rounded-2xl transform-gpu dark:text-gray-100 text-sm border-2 dark:bg-gray-800 border-transparent focus:border-indigo-600 bg-white shadow-light w-full mb-4 scale-on-click"
 				placeholder="Masukan Nama"
 				:disabled="loadData"
 			/>
 			<button
 				@click="getQuestions()"
-				class="rounded-2xl relative block w-full py-4 text-sm active:bg-indigo-600 bg-indigo-500 text-white shadow-light scale-on-click"
+				class="rounded-2xl transform-gpu relative block w-full py-4 text-sm active:bg-indigo-600 bg-indigo-500 text-white shadow-light scale-on-click"
 			>
 				<pulse-loader
 					:loading="loadData"
@@ -153,9 +153,7 @@ export default {
 				this.loadData = true;
 				this.$store.commit("SET_PLAYER_NAME", this.name);
 				await this.$store.dispatch("loadData");
-				let question = this.$store.state.questions[0];
-				let slug = question.text.replace(/\s/g, "-");
-				this.$router.replace(`/questions/${1}/${slug}`);
+				this.$router.replace(`/questions/${1}`);
 				this.$store.commit("SET_IS_STARTED", true);
 			}
 		},

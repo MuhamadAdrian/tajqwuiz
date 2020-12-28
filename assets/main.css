@@ -1,5 +1,7 @@
 
-
+.font-lafadz {
+	font-family: "Lateef", cursive;
+}
 .slide-enter-active {
 	transition: all 0.3s ease;
 }

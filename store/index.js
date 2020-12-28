@@ -9,7 +9,7 @@ export const state = () => ({
   questions: questions ? JSON.parse(questions) : null,
   answer: null,
   is_started: is_started ? JSON.parse(is_started) : false,
-  countdown: countdown ? JSON.parse(countdown) : 10,
+  countdown: countdown ? JSON.parse(countdown) : 11,
   page: null,
   player_name: player_name ? JSON.parse(player_name) : null
 });
@@ -52,12 +52,14 @@ export const mutations = {
 export const actions = {
   decrementCountdown({ commit, state }, payload) {
     let interval = setInterval(() => {
-      state.countdown--;
-      commit("SET_COUNTDOWN", state.countdown);
+      let time = state.countdown;
+      time--;
+      commit("SET_COUNTDOWN", time);
       console.log(state.countdown);
-      if (state.countdown == 0 || state.countdown <= 0) {
+      if (time < 0) {
         clearInterval(interval);
-        commit("SET_COUNTDOWN", 10);
+        commit("SET_COUNTDOWN", null);
+        localStorage.removeItem("time");
       }
     }, 1000);
   },
