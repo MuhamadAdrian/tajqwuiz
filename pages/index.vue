@@ -3,7 +3,13 @@
 		<header
 			class="fixed top-0 w-full flex items-center justify-between p-5"
 		>
-			<div class="left logo"></div>
+			<div class="left self-start">
+				<p
+					class="mb-2 dark:text-gray-200 text-gray-600 text-sm font-semibold"
+				>
+					Last Score : {{ score }}
+				</p>
+			</div>
 			<div class="right">
 				<button
 					@click="toggleTheme()"
@@ -88,7 +94,7 @@
 				<span v-if="!loadData">Mulai</span>
 			</button>
 		</div>
-		<Toast :text="error_message"></Toast>
+		<Toast color="bg-red-500" :text="error_message"></Toast>
 	</div>
 </template>
 
@@ -131,6 +137,14 @@ export default {
 				this.$store.commit("SET_LOAD_DATA", newVal);
 			},
 		},
+		score: {
+			get() {
+				return this.$store.state.score;
+			},
+			set(newVal) {
+				this.$store.commit("SET_SCORE", newVal);
+			},
+		},
 	},
 
 	methods: {
@@ -150,10 +164,12 @@ export default {
 				this.error_message =
 					"Please fill the name before you start the quiz";
 			} else {
+				this.score = 0;
 				this.loadData = true;
 				this.$store.commit("SET_PLAYER_NAME", this.name);
 				await this.$store.dispatch("loadData");
 				this.$router.replace(`/questions/${1}`);
+				this.$store.commit("SET_PAGE", 1);
 				this.$store.commit("SET_IS_STARTED", true);
 			}
 		},
@@ -176,7 +192,9 @@ export default {
 		},
 	},
 
-	mounted() {},
+	mounted() {
+		this.$store.commit("SET_PAGE", 1);
+	},
 };
 </script>
 

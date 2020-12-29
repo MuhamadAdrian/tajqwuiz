@@ -3,6 +3,8 @@ let is_started = localStorage.getItem("is_start");
 let questions = localStorage.getItem("questions");
 let countdown = localStorage.getItem("time");
 let player_name = localStorage.getItem("player_name");
+let score = localStorage.getItem("score");
+let page = localStorage.getItem("page");
 export const state = () => ({
   is_dark: is_dark ? JSON.parse(is_dark) : false,
   loadData: false,
@@ -11,7 +13,9 @@ export const state = () => ({
   is_started: is_started ? JSON.parse(is_started) : false,
   countdown: countdown ? JSON.parse(countdown) : 11,
   page: null,
-  player_name: player_name ? JSON.parse(player_name) : null
+  player_name: player_name ? JSON.parse(player_name) : null,
+  score: score ? JSON.parse(score) : 0,
+  page: page ? JSON.parse(page) : null
 });
 
 export const mutations = {
@@ -46,6 +50,16 @@ export const mutations = {
   },
   SET_PAGE(state, payload) {
     state.page = payload;
+    localStorage.setItem("page", JSON.stringify(state.page));
+  },
+
+  SET_SCORE(state, newScore) {
+    state.score = newScore;
+    localStorage.setItem("score", JSON.stringify(state.score));
+  },
+
+  RESET_QUESTION(state, payload) {
+    localStorage.removeItem("questions");
   }
 };
 
@@ -70,6 +84,7 @@ export const actions = {
         .then(res => {
           const { questions } = res.data;
           console.log(res.data);
+          commit("SET_LOAD_DATA", false);
           commit("SET_QUESTION", questions);
           resolve({ success: true });
         })

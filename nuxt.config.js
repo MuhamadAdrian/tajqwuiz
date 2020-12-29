@@ -80,7 +80,8 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: "https://aqueous-badlands-80098.herokuapp.com",
+    //baseURL: "https://aqueous-badlands-80098.herokuapp.com",
+    baseURL: "http://localhost:8000",
     credentials: true
   },
 

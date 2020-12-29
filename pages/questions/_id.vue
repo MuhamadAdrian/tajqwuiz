@@ -11,6 +11,7 @@
 			</div>
 			<p class="text-xs text-gray-400 border-r-2 border-indigo-500 pr-2">
 				play as {{ player_name }}
+				<span class="font-semibold">Score : {{ score }}</span>
 			</p>
 		</header>
 		<div
@@ -32,7 +33,7 @@
 					<p
 						v-if="countdown != 11"
 						:class="[countdown_style]"
-						class="text-right text-white text-sm py-2 px-3 rounded-3xl flex items-center"
+						class="text-right dark:text-white text-sm py-2 px-3 rounded-3xl flex items-center"
 					>
 						<span>
 							<svg
@@ -81,6 +82,16 @@
 				</button>
 			</div>
 		</transition>
+		<Toast
+			class="fixed top-0 mt-3"
+			:color="toast.toast_color"
+			:text="toast.message"
+		>
+			<button v-if="number != question_length" @click="nextQuestion">
+				Next
+			</button>
+			<button v-else @click="finishQuestion">Finish</button>
+		</Toast>
 	</div>
 </template>
 
@@ -88,7 +99,7 @@
 import { mapState } from "vuex";
 import { Howl, Howler } from "howler";
 export default {
-	middleware: "player",
+	middleware: "question",
 	transition: "slide",
 	async asyncData({ store, params, error }) {
 		let number = params.id;
@@ -124,6 +135,11 @@ export default {
 			countdown_box_style: "",
 			time_rotate: "",
 			show_right_answer: false,
+			disabled_choice: false,
+			toast: {
+				toast_color: "",
+				message: "",
+			},
 		};
 	},
 
@@ -131,13 +147,15 @@ export default {
 		question_length() {
 			return this.$store.state.questions.length;
 		},
-		...mapState(["countdown", "player_name"]),
+		...mapState(["countdown", "player_name", "score"]),
 	},
 
 	watch: {
-		countdown(time) {
+		async countdown(time) {
+			let audio = new Audio(require("@/assets/clock.mp3"));
+			audio.play();
 			if (time <= 3) {
-				this.countdown_style = "text-red-500 text-lg";
+				this.countdown_style = "dark:text-red-500 text-red-500 text-lg";
 				if (time == 3) {
 					this.time_rotate = "transform rotate-45";
 				}
@@ -148,20 +166,59 @@ export default {
 					this.time_rotate = "transform rotate-180";
 				}
 			}
-			if (time == 0) {
-				this.showCorrectAnswer();
+			if (time == null) {
+				let nextPage = parseInt(this.number) + 1;
+				this.$store.commit("SET_PAGE", nextPage);
+				if (this.choice == null) {
+					this.toast.toast_color =
+						"dark:bg-gray-700 bg-gray-100 dark:text-gray-200 text-gray-600";
+					this.toast.message = "Yah Ga keburu, coba lagi yuk !";
+				} else {
+					this.checkAnswerIsCorrect();
+				}
+				await this.showCorrectAnswer();
+				this.disabled_choice = true;
 			}
 		},
 	},
 
 	methods: {
-		showCorrectAnswer() {
-			let answer = this.answers.find(
+		checkAnswerIsCorrect() {
+			let is_true = false;
+			let source = null;
+			if (this.choice) {
+				if (this.choice.is_correct) {
+					source = require("@/assets/correct.mp3");
+					let audio = new Audio(source);
+					audio.play();
+					is_true = true;
+					this.showToast(is_true);
+					this.$store.commit("SET_SCORE", this.score + 10);
+				} else {
+					source = require("@/assets/wrong.mp3");
+					let audio = new Audio(source);
+					audio.play();
+					this.showToast(is_true);
+				}
+			}
+		},
+		async showCorrectAnswer() {
+			let answer = await this.answers.find(
 				(answer) => answer.is_correct == true
 			);
 			this.checked(answer.id);
 		},
+		showToast(is_correct) {
+			if (is_correct) {
+				this.toast.toast_color = "bg-green-500";
+				this.toast.message = "Yeay kamu benar !";
+			} else {
+				this.toast.toast_color = "bg-red-500";
+				this.toast.message = "Ups Salah";
+			}
+		},
 		nextQuestion() {
+			this.$store.commit("SET_COUNTDOWN", 11);
 			let nextPage = parseInt(this.number) + 1;
 			if (this.choice.is_correct) {
 				console.log("Kamu Benar");
@@ -170,8 +227,14 @@ export default {
 			}
 			this.$router.replace("/questions/" + nextPage);
 		},
+		finishQuestion() {
+			this.$store.commit("RESET_QUESTION");
+			this.$store.commit("SET_COUNTDOWN", 11);
+			console.log("finish");
+			this.$router.replace("/");
+		},
 		checked(id) {
-			if (this.countdown != null) {
+			if (!this.disabled_choice) {
 				let sn = this.$refs.sn;
 				let ref_radio = this.$refs.radio;
 				let ref_label = this.$refs.label;
@@ -216,10 +279,6 @@ export default {
 				this.$store.dispatch("decrementCountdown");
 			}
 		},
-		/*choice(is_correct) {
-			this.correct = is_correct;
-			console.log(this.correct);
-		},*/
 		showAnswer() {
 			setTimeout(() => {
 				this.answer_is_show = true;
@@ -261,11 +320,10 @@ export default {
 		},
 	},
 
-	created() {
-		this.showAnswer();
-	},
+	created() {},
 
 	mounted() {
+		this.showAnswer();
 		this.stylingAnswer();
 	},
 };

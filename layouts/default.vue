@@ -1,11 +1,12 @@
 <template>
-	<div class="dark:bg-gray-900">
+	<div class="dark:bg-gray-900 overflow-x-hidden">
 		<Nuxt />
 	</div>
 </template>
 
 <script>
 export default {
+	name: "LayoutNormal",
 	created() {
 		let html = document.querySelector("html");
 		let is_dark = localStorage.getItem("dark");

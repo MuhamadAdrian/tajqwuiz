@@ -72,5 +72,11 @@ export default {
 			await this.$auth.logout();
 		},
 	},
+
+	async mounted() {
+		if (this.$auth.strategy.token.status().unknown()) {
+			await this.$auth.logout();
+		}
+	},
 };
 </script>
