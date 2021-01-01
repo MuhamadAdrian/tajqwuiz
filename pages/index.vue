@@ -156,11 +156,13 @@
 								</nuxt-link>
 							</li>
 							<p
+								v-if="$auth.loggedIn"
 								class="text-xs text-gray-400 mb-1 text-left mt-3"
 							>
 								Room
 							</p>
 							<li
+								v-if="$auth.loggedIn"
 								class="text-sm bg-gray-100 dark:active:bg-gray-700 dark:hover:bg-gray-700 dark:bg-gray-600 p-2 rounded-md"
 							>
 								<nuxt-link
