@@ -4,7 +4,7 @@
 			class="flex fixed top-0 w-full items-center justify-between p-5"
 		>
 			<div class="left logo dark:text-gray-200">
-				Pertanyaan #{{ number }}
+				#{{ number }}
 				<span class="text-sm text-gray-400"
 					>/ {{ question_length }}</span
 				>
@@ -19,7 +19,8 @@
 		>
 			<div class="content mb-20">
 				<h1
-					class="text-7xl font-lafadz text-center dark:text-gray-200 mb-3"
+					v-if="question.lafadz"
+					class="text-5xl font-lafadz text-center dark:text-gray-200 mb-3"
 					v-html="question.lafadz"
 				></h1>
 				<p class="text-gray-400 text-sm text-center">
@@ -84,6 +85,7 @@
 		</transition>
 		<Toast
 			class="fixed top-0 mt-3"
+			style="bottom: unset"
 			:color="toast.toast_color"
 			:text="toast.message"
 		>
@@ -100,7 +102,9 @@ import { mapState } from "vuex";
 import { Howl, Howler } from "howler";
 export default {
 	middleware: "question",
-	transition: "slide",
+	transition: {
+		name: "slide",
+	},
 	async asyncData({ store, params, error }) {
 		let number = params.id;
 		const question = store.state.questions[params.id - 1];
@@ -210,10 +214,10 @@ export default {
 		},
 		showToast(is_correct) {
 			if (is_correct) {
-				this.toast.toast_color = "bg-green-500";
+				this.toast.toast_color = "bg-green-400";
 				this.toast.message = "Yeay kamu benar !";
 			} else {
-				this.toast.toast_color = "bg-red-500";
+				this.toast.toast_color = "bg-red-400";
 				this.toast.message = "Ups Salah";
 			}
 		},

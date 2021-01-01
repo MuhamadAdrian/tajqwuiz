@@ -7,7 +7,7 @@
 button{
     -webkit-tap-highlight-color: transparent;
 }
-input, button{
+input, button, textarea{
     @apply focus:outline-none
 }
 

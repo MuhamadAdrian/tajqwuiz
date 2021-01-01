@@ -1,18 +1,5 @@
 <template>
-	<div class="admin dark:bg-gray-900">
-		<div class="bg-indigo-500 shadow-lg text-white">
-			<div class="container mx-auto p-4">
-				<div class="flex items-center justify-between">
-					<h1>Tajqwuiz.com الرَّحْمٰنُ</h1>
-					<button
-						class="bg-red-50 text-red-600 px-3 py-2 rounded-md hover:bg-red-100 text-sm"
-						@click="logout"
-					>
-						Logout
-					</button>
-				</div>
-			</div>
-		</div>
+	<div class="admin">
 		<div class="container mx-auto px-5 mt-8">
 			<h2 class="text-2xl font-semibold mb-3">#Pertanyaan</h2>
 			<div class="grid md:grid-cols-4 grid-flow-row space-x-12">
@@ -36,7 +23,7 @@
 							v-html="question.lafadz"
 						></p>
 						<button
-							@click="seeAnswer(answer.id)"
+							@click="seeAnswer(question.id)"
 							class="ml-auto block mt-3 text-indigo-500"
 						>
 							See the answer
@@ -130,6 +117,7 @@
 <script>
 export default {
 	middleware: "admin",
+	layout: "admin",
 	data() {
 		return {
 			current_page: null,
@@ -155,9 +143,6 @@ export default {
 	methods: {
 		seeAnswer(id) {
 			this.$router.push("/030902/admin/question/" + id);
-		},
-		async logout() {
-			await this.$auth.logout();
 		},
 		async getNext() {
 			let nextPage = parseInt(this.current_page) + 1;
@@ -232,9 +217,6 @@ export default {
 	},
 
 	async created() {
-		if (this.$auth.strategy.token.status().unknown()) {
-			await this.$auth.logout();
-		}
 		this.load();
 	},
 };

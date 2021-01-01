@@ -54,14 +54,9 @@ export default {
   ],
 
   auth: {
-    redirect: {
-      login: "/030902/login",
-      logout: "/030902/login",
-      callback: "/030902/login",
-      home: "/030902/admin"
-    },
     strategies: {
       local: {
+        scheme: "local",
         token: {
           required: false,
           type: false
@@ -74,6 +69,37 @@ export default {
           logout: { url: "/logout", method: "post" },
           user: { url: "/api/user", method: "get" }
         }
+      },
+      google: {
+        scheme: "oauth2",
+        endpoints: {
+          authorization: "https://accounts.google.com/o/oauth2/auth",
+          token: undefined,
+          userInfo: "https://www.googleapis.com/oauth2/v3/userinfo",
+          logout: "http://localhost:3000/logout"
+        },
+        token: {
+          property: "access_token",
+          type: "Bearer",
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: "refresh_token",
+          maxAge: 60 * 60 * 24 * 30
+        },
+        responseType: "token",
+        grantType: "authorization_code",
+        accessType: undefined,
+        redirectUri: undefined,
+        logoutRedirectUri: undefined,
+        clientId:
+          "497641938122-a7pvn3j2o6cne2a463t2b1m0lb203q47.apps.googleusercontent.com",
+        scope: ["openid", "profile", "email"],
+        state: "UNIQUE_AND_NON_GUESSABLE",
+        codeChallengeMethod: "",
+        responseMode: "",
+        acrValues: ""
+        // autoLogout: false
       }
     }
   },

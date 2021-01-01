@@ -26,7 +26,8 @@ module.exports = {
   variants: {
     extend: {
       scale: ["active"],
-      backgroundColor: ["active", "checked"]
+      backgroundColor: ["active", "checked", "odd", "first", "last", "even"],
+      textColor: ["odd", "first", "last", "even"]
     }
   },
   plugins: []
