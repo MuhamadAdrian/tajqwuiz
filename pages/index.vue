@@ -25,7 +25,7 @@
 				<p
 					class="mb-2 dark:text-gray-200 text-gray-600 text-xs font-semibold"
 				>
-					Last Score : {{ score }}
+					Skor Terakhir : {{ score }}
 				</p>
 			</div>
 			<div class="right">
@@ -121,16 +121,14 @@
 											/>
 										</svg>
 									</span>
-									Make a Room
+									Buat Kelas
 								</nuxt-link>
 							</li>
 							<li
+								@click="modal_show = !modal_show"
 								class="text-sm bg-gray-100 dark:active:bg-gray-700 dark:hover:bg-gray-700 dark:bg-gray-600 p-2 rounded-md"
 							>
-								<nuxt-link
-									to="/"
-									class="flex items-center justify-center"
-								>
+								<p class="flex items-center justify-center">
 									<span class="mr-1">
 										<svg
 											class="fill-current"
@@ -152,17 +150,15 @@
 											</g>
 										</svg>
 									</span>
-									Join a Room
-								</nuxt-link>
+									Gabung Kelas
+								</p>
 							</li>
 							<p
-								v-if="$auth.loggedIn"
 								class="text-xs text-gray-400 mb-1 text-left mt-3"
 							>
-								Room
+								Kelas
 							</p>
 							<li
-								v-if="$auth.loggedIn"
 								class="text-sm bg-gray-100 dark:active:bg-gray-700 dark:hover:bg-gray-700 dark:bg-gray-600 p-2 rounded-md"
 							>
 								<nuxt-link
@@ -190,14 +186,28 @@
 											</g>
 										</svg>
 									</span>
-									My Room
+									Kelas Saya
 								</nuxt-link>
+							</li>
+							<p
+								v-if="$auth.loggedIn"
+								class="text-xs text-gray-400 mb-1 text-left mt-3"
+							>
+								Lainnya
+							</p>
+							<li
+								v-if="$auth.loggedIn"
+								@click="logoutGoogle()"
+								class="text-sm text-white bg-red-400 active:bg-red-500 hover:bg-red-500 p-2 rounded-md"
+							>
+								<button
+									class="flex items-center justify-center w-full"
+								>
+									Keluar
+								</button>
 							</li>
 						</ul>
 					</div>
-				</button>
-				<button v-if="$auth.loggedIn" @click="logoutGoogle()">
-					Logout
 				</button>
 			</div>
 		</header>
@@ -239,6 +249,10 @@
 			</button>
 		</div>
 		<Toast color="bg-red-500" :text="error_message"></Toast>
+		<ModalJoin
+			@modalClicked="modal_show = !modal_show"
+			:show="modal_show"
+		></ModalJoin>
 	</div>
 </template>
 
@@ -261,6 +275,7 @@ export default {
 			switch_theme: require("@/assets/switch-theme.mp3"),
 			name: this.$auth.loggedIn ? this.$auth.user.name : "",
 			error_message: null,
+			modal_show: false,
 		};
 	},
 
@@ -300,11 +315,14 @@ export default {
 				this.$store.commit("SET_SCORE", newVal);
 			},
 		},
+		rid() {
+			return this.$store.state.join.rid;
+		},
 	},
 
 	methods: {
-		async logoutGoogle() {
-			await this.$auth.logout();
+		logoutGoogle() {
+			this.$router.replace("/logout");
 		},
 		async test() {
 			await this.$auth.loginWith("google");
@@ -325,6 +343,9 @@ export default {
 				this.error_message =
 					"Please fill the name before you start the quiz";
 			} else {
+				if (this.rid) {
+					this.$store.commit("join/RESET_RID");
+				}
 				this.score = 0;
 				this.loadData = true;
 				this.$store.commit("SET_PLAYER_NAME", this.name);

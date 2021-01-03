@@ -1,6 +1,6 @@
 <template>
 	<div class="make-room relative">
-		<div class="fixed left-0 top-0 w-full shadow">
+		<div class="fixed left-0 top-0 w-full shadow dark:bg-gray-800">
 			<div class="flex items-center py-4 px-4 mx-auto justify-between">
 				<div class="left flex items-center">
 					<button
@@ -20,7 +20,9 @@
 							/>
 						</svg>
 					</button>
-					<h2 class="font-semibold text-sm">Make A Room</h2>
+					<h2 class="font-semibold text-sm dark:text-white">
+						Make A Room
+					</h2>
 				</div>
 				<div class="right">
 					<button
@@ -35,14 +37,14 @@
 		<div class="container mx-auto px-4 pt-24 h-screen">
 			<div class="flex flex-col mb-3">
 				<label class="text-sm text-gray-400">ID Room</label>
-				<p>{{ idRoom }}</p>
+				<p class="dark:text-white">{{ idRoom }}</p>
 			</div>
 			<div class="flex flex-col mb-3">
 				<label class="text-sm text-gray-400 mb-1">Title Room</label>
 				<input
 					v-model="form.title"
 					type="text"
-					class="px-3 py-2 text-sm border-2 border-gray-300 focus:border-indigo-500 bg-white w-full rounded-md"
+					class="px-3 py-2 text-sm border-2 border-gray-400 focus:border-indigo-500 bg-white dark:bg-gray-900 dark:text-white w-full rounded-md"
 				/>
 				<p v-if="errors.title" class="text-xs text-red-500 mt-1">
 					{{ errors.title[0] }}
@@ -53,7 +55,7 @@
 				<input
 					v-model="form.description"
 					type="text"
-					class="px-3 py-2 text-sm border-2 border-gray-300 focus:border-indigo-500 bg-white w-full rounded-md"
+					class="px-3 py-2 text-sm border-2 border-gray-400 focus:border-indigo-500 bg-white dark:bg-gray-900 dark:text-white w-full rounded-md"
 				/>
 				<p v-if="errors.description" class="text-xs text-red-500 mt-1">
 					{{ errors.description[0] }}
@@ -64,7 +66,7 @@
 				<input
 					v-model="form.expired"
 					type="date"
-					class="px-3 py-2 text-sm border-2 border-gray-300 focus:border-indigo-500 bg-white w-full rounded-md"
+					class="px-3 py-2 text-sm border-2 border-gray-400 focus:border-indigo-500 bg-white dark:bg-gray-900 dark:text-white w-full rounded-md"
 				/>
 				<p v-if="errors.expired" class="text-xs text-red-500 mt-1">
 					{{ errors.expired[0] }}

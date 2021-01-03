@@ -9,10 +9,12 @@
 					>/ {{ question_length }}</span
 				>
 			</div>
-			<p class="text-xs text-gray-400 border-r-2 border-indigo-500 pr-2">
-				play as {{ player_name }}
-				<span class="font-semibold">Score : {{ score }}</span>
-			</p>
+			<div class="right border-r-2 border-indigo-500 pr-2">
+				<p class="text-xs text-gray-400">play as {{ player_name }}</p>
+				<p class="text-xs text-gray-400 text-right">
+					<span class="font-semibold">Score : {{ score }}</span>
+				</p>
+			</div>
 		</header>
 		<div
 			class="main flex h-3/4 items-center justify-center container mx-auto px-4"
@@ -151,6 +153,9 @@ export default {
 		question_length() {
 			return this.$store.state.questions.length;
 		},
+		rid() {
+			return this.$store.state.join.rid;
+		},
 		...mapState(["countdown", "player_name", "score"]),
 	},
 
@@ -198,6 +203,13 @@ export default {
 					is_true = true;
 					this.showToast(is_true);
 					this.$store.commit("SET_SCORE", this.score + 10);
+					if (this.rid) {
+						let payload = {
+							scorePlus: 10,
+							rid: this.rid,
+						};
+						this.$store.dispatch("join/updateScore", payload);
+					}
 				} else {
 					source = require("@/assets/wrong.mp3");
 					let audio = new Audio(source);
@@ -232,6 +244,9 @@ export default {
 			this.$router.replace("/questions/" + nextPage);
 		},
 		finishQuestion() {
+			if (this.rid) {
+				this.$store.commit("join/RESET_RID");
+			}
 			this.$store.commit("RESET_QUESTION");
 			this.$store.commit("SET_COUNTDOWN", 11);
 			console.log("finish");

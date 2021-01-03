@@ -52,6 +52,17 @@ export default {
 
     "@nuxtjs/auth-next"
   ],
+  loading: {
+    continuous: true,
+    color: "#6366f1",
+    height: "3px"
+  },
+
+  loadingIndicator: {
+    name: "folding-cube",
+    color: "#6366f1",
+    background: "white"
+  },
 
   auth: {
     strategies: {
@@ -76,12 +87,12 @@ export default {
           authorization: "https://accounts.google.com/o/oauth2/auth",
           token: undefined,
           userInfo: "https://www.googleapis.com/oauth2/v3/userinfo",
-          logout: "http://localhost:3000/logout"
+          logout: "https://tajqwuiz.netlify.app/logout"
         },
         token: {
           property: "access_token",
           type: "Bearer",
-          maxAge: 1800
+          maxAge: 0
         },
         refreshToken: {
           property: "refresh_token",
@@ -106,8 +117,8 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    //baseURL: "https://aqueous-badlands-80098.herokuapp.com",
-    baseURL: "http://localhost:8000",
+    baseURL: "https://aqueous-badlands-80098.herokuapp.com",
+    //baseURL: "http://localhost:8000",
     credentials: true
   },
 

@@ -4,8 +4,12 @@
 
 <script>
 export default {
-	asyncData({ store, redirect }) {
-		if (!store.state.auth.loggedIn) redirect("/");
+	async asyncData({ $auth, redirect }) {
+		if ($auth.loggedIn) {
+			await $auth.logout();
+		} else {
+			redirect("/");
+		}
 	},
 };
 </script>

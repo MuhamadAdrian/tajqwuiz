@@ -4,7 +4,7 @@
 			class="fixed bg-white bg-opacity-95 left-0 top-0 w-full flex items-center justify-between p-5 shadow"
 		>
 			<div class="left flex items-center">
-				<button @click="$router.push('/')" class="dark:text-white mr-2">
+				<button @click="$router.back()" class="dark:text-white mr-2">
 					<svg
 						class="fill-current inline-block"
 						xmlns="http://www.w3.org/2000/svg"
@@ -31,9 +31,6 @@
 					<p class="text-gray-400 text-xs">
 						Created : {{ room.created_at }}
 					</p>
-					<p class="text-gray-400 text-xs">
-						Updated :{{ room.updated_at }}
-					</p>
 				</div>
 			</div>
 			<div class="title mb-3">
@@ -56,12 +53,17 @@
 				v-if="!is_loading"
 				class="inline px-3 py-2 bg-indigo-500 rounded-md shadow text-white text-sm"
 			>
-				Save
+				<pulse-loader
+					:loading="is_saving"
+					color="#ffffff"
+					size="5px"
+				></pulse-loader>
+				<span v-if="!is_saving">Save</span>
 			</button>
 		</div>
 		<div class="container mx-auto px-4 question mt-3">
 			<div
-				v-for="question in generated_question"
+				v-for="question in questions"
 				:key="question.id"
 				class="bg-white shadow-md mb-2 p-4 rounded-md"
 			>
@@ -123,35 +125,57 @@ export default {
 				room,
 			};
 		} catch (err) {
+			error("200", "Something went wrong");
 			console.log(err);
 		}
 	},
 
-	data() {
-		return {
-			is_loading: false,
-		};
-	},
-
 	computed: {
-		question_rooms() {
-			return this.$store.state.masterRoom.question_rooms;
-		},
-		generated_question() {
+		questions() {
 			return this.$store.state.masterRoom.questions;
+		},
+		is_loading: {
+			get() {
+				return this.$store.state.masterRoom.is_load;
+			},
+			set(val) {
+				this.$store.commit("masterRoom/SET_IS_LOAD", val);
+			},
+		},
+
+		is_saving: {
+			get() {
+				return this.$store.state.masterRoom.is_saving;
+			},
+			set(val) {
+				this.$store.commit("masterRoom/SET_IS_SAVING", val);
+			},
 		},
 	},
 
 	methods: {
 		async generateRandomQuestion() {
 			try {
-				this.is_loading = true;
 				let res = await this.$store.dispatch(
 					"masterRoom/generateRandomQuestion"
 				);
 				if (res) {
-					this.is_loading = false;
+					console.log(res);
 				}
+			} catch (err) {
+				console.log(err);
+			}
+		},
+
+		async saveGeneratedQuestion() {
+			try {
+				this.is_saving = true;
+				let res = await this.$axios.$post(
+					`/api/question-room/${this.rid}/store`,
+					this.questions
+				);
+				this.is_saving = false;
+				console.log(res);
 			} catch (err) {
 				console.log(err);
 			}
@@ -160,15 +184,10 @@ export default {
 
 	async created() {
 		try {
-			if (this.question_rooms.length) {
-				//load From database question_rooms
-			} else {
-				this.is_loading = true;
-				let res = await this.generateRandomQuestion();
-				if (res) {
-					this.is_loading = false;
-				}
-			}
+			await this.$store.dispatch(
+				"masterRoom/loadQuestionsRoom",
+				this.rid
+			);
 		} catch (err) {
 			console.log(err);
 		}
