@@ -1,7 +1,7 @@
 <template>
 	<div class="h-full relative">
 		<header
-			class="fixed bg-white bg-opacity-95 left-0 top-0 w-full flex items-center justify-between p-5 shadow"
+			class="fixed bg-white dark:bg-gray-800 bg-opacity-95 left-0 top-0 w-full flex items-center justify-between p-5 shadow"
 		>
 			<div class="left flex items-center">
 				<button @click="$router.back()" class="dark:text-white mr-2">
@@ -18,24 +18,40 @@
 						/>
 					</svg>
 				</button>
-				<h2 class="font-semibold text-sm">Room Detail</h2>
+				<h2 class="font-semibold text-sm dark:text-white">
+					Detail Kelas
+				</h2>
+			</div>
+			<div class="rig">
+				<button
+					@click="toRekap()"
+					class="px-3 py-2 rounded-md bg-indigo-500 active:bg-indigo-600 hover:bg-indigo-600 text-white text-sm"
+				>
+					Rekapan
+				</button>
 			</div>
 		</header>
 
 		<div class="container mx-auto px-4 pt-24 main">
 			<div class="flex items-center justify-between mb-3">
 				<div class="left self-start">
-					<h1 class="text-sm mb-1">ID : {{ rid }}</h1>
+					<h1 class="text-sm mb-1 dark:text-gray-300">
+						ID : {{ rid }}
+					</h1>
 				</div>
 				<div class="right self-start">
 					<p class="text-gray-400 text-xs">
-						Created : {{ room.created_at }}
+						Dibuat : {{ room.created_at }}
 					</p>
 				</div>
 			</div>
 			<div class="title mb-3">
-				<h2 class="text-md font-semibold mb-1">{{ room.title }}</h2>
-				<p class="text-sm mb-1">{{ room.description }}</p>
+				<h2 class="text-md font-semibold mb-1 dark:text-white">
+					{{ room.title }}
+				</h2>
+				<p class="text-sm mb-1 dark:text-gray-200">
+					{{ room.description }}
+				</p>
 			</div>
 			<button
 				@click="generateRandomQuestion()"
@@ -46,7 +62,7 @@
 					color="#ffffff"
 					size="5px"
 				></pulse-loader>
-				<span v-if="!is_loading">Generate Question</span>
+				<span v-if="!is_loading">Acak Pertanyaan</span>
 			</button>
 			<button
 				@click="saveGeneratedQuestion()"
@@ -58,25 +74,29 @@
 					color="#ffffff"
 					size="5px"
 				></pulse-loader>
-				<span v-if="!is_saving">Save</span>
+				<span v-if="!is_saving">Simpan</span>
 			</button>
 		</div>
 		<div class="container mx-auto px-4 question mt-3">
 			<div
 				v-for="question in questions"
 				:key="question.id"
-				class="bg-white shadow-md mb-2 p-4 rounded-md"
+				class="bg-white dark:bg-gray-800 shadow-md mb-2 p-4 rounded-md"
 			>
 				<div class="flex items-center mb-1">
 					<div class="id mr-2 self-start">
-						<p class="font-semibold">#{{ question.id }}</p>
+						<p class="font-semibold dark:text-white">
+							#{{ question.id }}
+						</p>
 					</div>
 					<div class="text">
-						<p class="text-gray-500">{{ question.text }}</p>
+						<p class="text-gray-500 dark:text-gray-200">
+							{{ question.text }}
+						</p>
 					</div>
 				</div>
 				<p
-					class="text-2xl text-right mb-2"
+					class="text-2xl text-right mb-2 dark:text-white"
 					v-if="question.lafadz"
 					v-html="question.lafadz"
 				></p>
@@ -86,7 +106,7 @@
 					:class="[
 						answer.is_correct
 							? 'bg-green-400'
-							: 'bg-gray-100 text-gray-600',
+							: 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-gray-600',
 					]"
 					class="p-4 text-white rounded-md mb-2"
 				>
@@ -115,6 +135,7 @@ export default {
 	async asyncData({ route, $axios, store, params, redirect, error }) {
 		try {
 			const rid = params.rid;
+			const name = params.name;
 
 			let res = await $axios.get(`/api/room/${rid}/detail`);
 
@@ -123,6 +144,7 @@ export default {
 			return {
 				rid,
 				room,
+				name,
 			};
 		} catch (err) {
 			error("200", "Something went wrong");
@@ -154,6 +176,9 @@ export default {
 	},
 
 	methods: {
+		toRekap() {
+			this.$router.push(`/room/${this.name}/${this.rid}/rekapan`);
+		},
 		async generateRandomQuestion() {
 			try {
 				let res = await this.$store.dispatch(

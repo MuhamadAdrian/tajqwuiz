@@ -9,9 +9,9 @@
 export default {
 	name: "AdminLayout",
 	async created() {
-		if (this.$auth.strategy.token.status().unknown()) {
+		/*if (this.$auth.strategy.token.status().unknown()) {
 			await this.$auth.logout();
-		}
+		}*/
 	},
 };
 </script>

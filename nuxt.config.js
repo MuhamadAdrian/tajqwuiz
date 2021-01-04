@@ -7,11 +7,16 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: "frontend",
+    title: "TajQwuiz | Quiz seputar tajwid",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "TajQwuiz adalah sarana kamu untuk belajar mengenal lebih dalam mengenai ilmu tajwid. TajQwuiz membantu kamu dalam praktik membaca Al-Qur'an yang baik dan benar. Jadi jangan khawatir"
+      }
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },

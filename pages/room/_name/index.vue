@@ -28,13 +28,13 @@
 			<div
 				v-for="room in rooms"
 				:key="room.rid"
-				class="rounded-md bg-white dark:bg-gray-700 shadow"
+				class="rounded-md bg-white dark:bg-gray-700 cursor-pointer shadow"
 			>
-				<div
-					@click="$router.push(`/room/${slug}/${room.rid}`)"
-					class="flex items-center justify-between p-4"
-				>
-					<div class="content">
+				<div class="flex items-center justify-between">
+					<div
+						@click="$router.push(`/room/${slug}/${room.rid}`)"
+						class="content relative z-0 w-full p-4 dark:active:bg-gray-800 active:bg-gray-100"
+					>
 						<p
 							class="text-xs font-semibold text-gray-600 dark:text-gray-200"
 						>
@@ -46,6 +46,25 @@
 						<p class="text-xs text-gray-400">
 							{{ room.description }}
 						</p>
+					</div>
+					<div
+						class="action relative py-4"
+						@click="deleteRoom(room.rid)"
+					>
+						<button class="p-4 text-red-400">
+							<svg
+								class="fill-current"
+								xmlns="http://www.w3.org/2000/svg"
+								height="24"
+								viewBox="0 0 24 24"
+								width="24"
+							>
+								<path d="M0 0h24v24H0z" fill="none" />
+								<path
+									d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+								/>
+							</svg>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -69,6 +88,17 @@ export default {
 		} catch (err) {
 			console.log(err);
 		}
+	},
+
+	methods: {
+		async deleteRoom(rid) {
+			try {
+				await this.$axios.$delete(`/api/room/delete/${rid}`);
+				this.$nuxt.refresh();
+			} catch (err) {
+				console.log(err);
+			}
+		},
 	},
 };
 </script>

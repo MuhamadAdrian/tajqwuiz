@@ -103,9 +103,13 @@
 import { mapState } from "vuex";
 import { Howl, Howler } from "howler";
 export default {
+	name: "Question",
 	middleware: "question",
 	transition: {
 		name: "slide",
+	},
+	head: {
+		title: "Pertanyaan",
 	},
 	async asyncData({ store, params, error }) {
 		let number = params.id;

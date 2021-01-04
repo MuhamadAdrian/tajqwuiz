@@ -80,6 +80,17 @@
 <script>
 export default {
 	middleware: "auth",
+	head: {
+		title: "TajQwuiz | Buat Kelasmu",
+		meta: [
+			{
+				hid: "description",
+				name: "description",
+				content:
+					"Ayo Buat Kelasmu, dan asah kemampuan kalian disana bersama TajQwuiz",
+			},
+		],
+	},
 	transition: {
 		name: "slide",
 	},
