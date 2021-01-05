@@ -19,7 +19,7 @@ export default {
       }
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/tajqwuiz.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "preconnect",
         href: "https://fonts.gstatic.com"
@@ -129,8 +129,8 @@ export default {
 
   pwa: {
     icon: {
-      source: "/tajqwuiz.png",
-      fileName: "tajqwuiz.png"
+      source: "/tajqwuiz2.png",
+      fileName: "tajqwuiz2.png"
     },
     manifest: {
       name: "TajQwuiz",
