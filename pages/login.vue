@@ -2,7 +2,7 @@
 	<div class="h-screen bg-gray-50 dark:bg-gray-900 bg-opacity-40">
 		<header class="fixed bottom-0 w-full p-5">
 			<div class="flex items-center justify-end">
-				<button @click="$router.back()" class="dark:text-white">
+				<button @click="$router.push('/')" class="dark:text-white">
 					<svg
 						class="fill-current inline-block"
 						xmlns="http://www.w3.org/2000/svg"
@@ -94,11 +94,19 @@ export default {
 	methods: {
 		async submitHandler() {
 			try {
-				await this.$axios.$get("sanctum/csrf-cookie");
-				let res = await this.$auth.loginWith("local", {
-					data: this.form,
-				});
-				console.log(res);
+				let offlineEl = document.querySelector("#offline");
+				if (this.$nuxt.isOffline) {
+					offlineEl.classList.add("animate-shake");
+					setTimeout(() => {
+						offlineEl.classList.remove("animate-shake");
+					}, 1000);
+				} else {
+					await this.$axios.$get("sanctum/csrf-cookie");
+					let res = await this.$auth.loginWith("local", {
+						data: this.form,
+					});
+					console.log(res);
+				}
 			} catch (err) {
 				console.log(err);
 			}
@@ -108,7 +116,15 @@ export default {
 		},
 
 		async signInWithGoogle() {
-			await this.$auth.loginWith("google");
+			let offlineEl = document.querySelector("#offline");
+			if (this.$nuxt.isOffline) {
+				offlineEl.classList.add("animate-shake");
+				setTimeout(() => {
+					offlineEl.classList.remove("animate-shake");
+				}, 1000);
+			} else {
+				await this.$auth.loginWith("google");
+			}
 		},
 	},
 

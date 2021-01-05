@@ -2,7 +2,13 @@ export default function({ store, redirect, params }) {
   if (!store.state.player_name) {
     redirect("/");
   }
-  if (store.state.page > store.state.questions.length) {
+  if (!store.state.questions) {
+    redirect("/");
+  }
+  if (
+    store.state.questions &&
+    store.state.page > store.state.questions.length
+  ) {
     redirect("/");
   }
   if (store.state.page != params.id) {

@@ -4,7 +4,7 @@
 
 
 
-button{
+button, div{
     -webkit-tap-highlight-color: transparent;
 }
 input, button, textarea{

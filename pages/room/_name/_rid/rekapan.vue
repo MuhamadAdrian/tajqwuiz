@@ -24,21 +24,32 @@
 			</div>
 		</header>
 		<div class="container mx-auto px-5 pt-24">
-			<table class="border table-auto w-full">
+			<p
+				class="text-center text-sm dark:text-gray-200"
+				v-if="!challangers || challangers.length == 0"
+			>
+				Kosong
+			</p>
+			<table
+				v-if="challangers && challangers.length != 0"
+				class="border dark:border-gray-800 table-auto w-full"
+			>
 				<thead>
 					<tr
 						class="h-12 bg-indigo-500 border border-indigo-500 text-white"
 					>
-						<th class="text-sm w-1/2">Nama</th>
-						<th class="text-sm w-1/2">Skor</th>
+						<th class="text-sm w-1/6">No</th>
+						<th class="text-sm w-4/6">Nama</th>
+						<th class="text-sm w-1/4">Skor</th>
 					</tr>
 				</thead>
-				<tbody class="text-sm">
+				<tbody class="text-sm dark:text-white">
 					<tr
-						class="text-center h-10 border"
-						v-for="challanger in challangers"
-						:key="challanger.id"
+						class="text-center h-10 border dark:border-gray-600"
+						v-for="(challanger, index) in challangers"
+						:key="index"
 					>
+						<td>{{ increment }}</td>
 						<td>{{ challanger.name }}</td>
 						<td>{{ challanger.scores }}</td>
 					</tr>
@@ -50,6 +61,8 @@
 
 <script>
 export default {
+	middleware: "auth",
+	transition: "slide",
 	async asyncData({ $axios, store, params, redirect }) {
 		try {
 			let res = await $axios.$get(`/api/challanger/${params.rid}`);
@@ -62,6 +75,14 @@ export default {
 		} catch (err) {
 			console.log(err);
 		}
+	},
+
+	computed: {
+		increment() {
+			let num = 1;
+			return num;
+			num++;
+		},
 	},
 };
 </script>

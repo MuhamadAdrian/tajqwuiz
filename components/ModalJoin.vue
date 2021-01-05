@@ -125,6 +125,13 @@ export default {
 							text: "Mohon masukan nama terlebih dahulu",
 							color: "bg-red-400",
 						};
+					}
+					let offlineEl = document.querySelector("#offline");
+					if (this.$nuxt.isOffline) {
+						offlineEl.classList.add("animate-shake");
+						setTimeout(() => {
+							offlineEl.classList.remove("animate-shake");
+						}, 1000);
 					} else {
 						this.is_joining = true;
 						await this.$store.dispatch("join/searchRoom", this.rid);
@@ -177,10 +184,10 @@ export default {
 							}, 2000);
 						}
 						this.is_joining = false;
-						setTimeout(() => {
-							this.toast = {};
-						}, 3000);
 					}
+					setTimeout(() => {
+						this.toast = {};
+					}, 3000);
 				} catch (err) {
 					this.is_joining = false;
 					this.toast = {

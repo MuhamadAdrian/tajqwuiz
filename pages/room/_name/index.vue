@@ -22,6 +22,14 @@
 					Kelas Saya
 				</h2>
 			</div>
+			<div class="right">
+				<nuxt-link
+					to="/make-room"
+					class="px-3 py-2 text-sm rounded-md bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-600"
+				>
+					Buat Kelas
+				</nuxt-link>
+			</div>
 		</header>
 		<div class="container mx-auto px-4 pt-24">
 			<h6 class="text-xs text-gray-400 mb-2">Dimiliki</h6>
@@ -33,7 +41,7 @@
 				<div class="flex items-center justify-between">
 					<div
 						@click="$router.push(`/room/${slug}/${room.rid}`)"
-						class="content relative z-0 w-full p-4 dark:active:bg-gray-800 active:bg-gray-100"
+						class="content relative z-0 w-full p-4 dark:active:bg-gray-800 transition-colors duration-100 active:bg-gray-100"
 					>
 						<p
 							class="text-xs font-semibold text-gray-600 dark:text-gray-200"
@@ -48,7 +56,7 @@
 						</p>
 					</div>
 					<div
-						class="action relative py-4"
+						class="action relative py-4 dark:active:bg-gray-800 transition-colors duration-100 active:bg-gray-100"
 						@click="deleteRoom(room.rid)"
 					>
 						<button class="p-4 text-red-400">

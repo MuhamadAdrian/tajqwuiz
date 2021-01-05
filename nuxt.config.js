@@ -19,7 +19,7 @@ export default {
       }
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/tajqwuiz.ico" },
       {
         rel: "preconnect",
         href: "https://fonts.gstatic.com"
@@ -92,12 +92,12 @@ export default {
           authorization: "https://accounts.google.com/o/oauth2/auth",
           token: undefined,
           userInfo: "https://www.googleapis.com/oauth2/v3/userinfo",
-          logout: "https://tajqwuiz.netlify.app/logout"
+          logout: "http://localhost:3000/logout"
         },
         token: {
           property: "access_token",
           type: "Bearer",
-          maxAge: 0
+          maxAge: 1800
         },
         refreshToken: {
           property: "refresh_token",
@@ -122,9 +122,23 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: "https://aqueous-badlands-80098.herokuapp.com",
-    //baseURL: "http://localhost:8000",
+    //baseURL: "https://aqueous-badlands-80098.herokuapp.com",
+    baseURL: "http://localhost:8000",
     credentials: true
+  },
+
+  pwa: {
+    icon: {
+      source: "/tajqwuiz.png",
+      fileName: "tajqwuiz.png"
+    },
+    manifest: {
+      name: "TajQwuiz",
+      short_name: "TajQwuiz",
+      description: "Quiz Seputar Tajwid",
+
+      background_color: "#fdfdfd"
+    }
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

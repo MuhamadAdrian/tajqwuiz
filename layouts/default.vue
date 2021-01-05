@@ -1,5 +1,17 @@
 <template>
 	<div class="dark:bg-gray-900 min-h-screen overflow-x-hidden">
+		<transition name="slide" mode="out-in">
+			<button
+				v-if="$nuxt.isOffline"
+				id="offline"
+				ref="offline"
+				class="bg-red-400 p-2 fixed top-0 right-0 z-10 m-2 rounded-md scale-on-click"
+			>
+				<p class="text-xs text-white text-center">
+					Kamu sedang offline
+				</p>
+			</button>
+		</transition>
 		<Nuxt />
 	</div>
 </template>

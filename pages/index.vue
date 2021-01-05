@@ -339,9 +339,15 @@ export default {
 
 		async getQuestions() {
 			this.playAudio(this.button_clicked);
+			let offlineEl = document.querySelector("#offline");
 			if (!this.name) {
 				this.error_message =
 					"Please fill the name before you start the quiz";
+			} else if (this.$nuxt.isOffline) {
+				offlineEl.classList.add("animate-shake");
+				setTimeout(() => {
+					offlineEl.classList.remove("animate-shake");
+				}, 1000);
 			} else {
 				if (this.rid) {
 					this.$store.commit("join/RESET_RID");

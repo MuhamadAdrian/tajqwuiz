@@ -21,7 +21,7 @@
 						</svg>
 					</button>
 					<h2 class="font-semibold text-sm dark:text-white">
-						Make A Room
+						Buat Kelas
 					</h2>
 				</div>
 				<div class="right">
@@ -29,7 +29,7 @@
 						@click="submitForm()"
 						class="px-3 py-2 text-sm rounded-md bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-600"
 					>
-						Create +
+						Buat +
 					</button>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 				<p class="dark:text-white">{{ idRoom }}</p>
 			</div>
 			<div class="flex flex-col mb-3">
-				<label class="text-sm text-gray-400 mb-1">Title Room</label>
+				<label class="text-sm text-gray-400 mb-1">Judul Kelas</label>
 				<input
 					v-model="form.title"
 					type="text"
@@ -51,7 +51,7 @@
 				</p>
 			</div>
 			<div class="flex flex-col mb-3">
-				<label class="text-sm text-gray-400 mb-1">Decription</label>
+				<label class="text-sm text-gray-400 mb-1">Deskripsi</label>
 				<input
 					v-model="form.description"
 					type="text"
@@ -62,7 +62,7 @@
 				</p>
 			</div>
 			<div class="flex flex-col mb-3">
-				<label class="text-sm text-gray-400 mb-1">Expired Time</label>
+				<label class="text-sm text-gray-400 mb-1">Batas Waktu</label>
 				<input
 					v-model="form.expired"
 					type="date"
