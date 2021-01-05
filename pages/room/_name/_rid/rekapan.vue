@@ -49,7 +49,7 @@
 						v-for="(challanger, index) in challangers"
 						:key="index"
 					>
-						<td>{{ increment }}</td>
+						<td>{{ index + 1 }}</td>
 						<td>{{ challanger.name }}</td>
 						<td>{{ challanger.scores }}</td>
 					</tr>
