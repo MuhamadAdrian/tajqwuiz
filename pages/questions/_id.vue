@@ -96,6 +96,13 @@
 			</button>
 			<button v-else @click="finishQuestion">Finish</button>
 		</Toast>
+		<audio ref="answer1" crossorigin="anonymous" src="/answer1.mp3"></audio>
+		<audio ref="answer2" crossorigin="anonymous" src="/answer2.mp3"></audio>
+		<audio ref="answer3" crossorigin="anonymous" src="/answer3.mp3"></audio>
+		<audio ref="answer4" crossorigin="anonymous" src="/answer4.mp3"></audio>
+		<audio ref="wrong" crossorigin="anonymous" src="/wrong.mp3"></audio>
+		<audio ref="correct" crossorigin="anonymous" src="/correct.mp3"></audio>
+		<audio ref="clock" crossorigin="anonymous" src="/clock.mp3"></audio>
 	</div>
 </template>
 
@@ -126,20 +133,6 @@ export default {
 	data() {
 		return {
 			choice: null,
-			audios: [
-				{
-					file: require("../../static/answer1.mp3"),
-				},
-				{
-					file: require("../../static/answer2.mp3"),
-				},
-				{
-					file: require("../../static/answer3.mp3"),
-				},
-				{
-					file: require("../../static/answer4.mp3"),
-				},
-			],
 			answer_is_show: false,
 			countdown_style: "",
 			countdown_box_style: "",
@@ -165,7 +158,9 @@ export default {
 
 	watch: {
 		async countdown(time) {
-			let audio = new Audio(require("../../static/clock.mp3"));
+			let audio = this.$refs.clock;
+			audio.pause();
+			audio.currentTime = 0;
 			audio.play();
 			if (time <= 3) {
 				this.countdown_style = "dark:text-red-500 text-red-500 text-lg";
@@ -201,8 +196,9 @@ export default {
 			let source = null;
 			if (this.choice) {
 				if (this.choice.is_correct) {
-					source = require("../../static/correct.mp3");
-					let audio = new Audio(source);
+					let audio = this.$refs.correct;
+					audio.pause();
+					audio.currentTime = 0;
 					audio.play();
 					is_true = true;
 					this.showToast(is_true);
@@ -215,8 +211,9 @@ export default {
 						this.$store.dispatch("join/updateScore", payload);
 					}
 				} else {
-					source = require("../../static/wrong.mp3");
-					let audio = new Audio(source);
+					let audio = this.$refs.wrong;
+					audio.pause();
+					audio.currentTime = 0;
 					audio.play();
 					this.showToast(is_true);
 				}
@@ -266,23 +263,26 @@ export default {
 				if (radio.checked) {
 					let label = ref_label.find((la) => la.id == id);
 					let index = ref_label.indexOf(label);
-					this.playAudio(index);
 					if (index == 0) {
+						this.playAudio(this.$refs.answer1);
 						label.classList.remove("text-red-400");
 						ref_label[1].classList.add("text-indigo-400");
 						ref_label[2].classList.add("text-yellow-400");
 						ref_label[3].classList.add("text-green-400");
 					} else if (index == 1) {
+						this.playAudio(this.$refs.answer2);
 						label.classList.remove("text-indigo-400");
 						ref_label[0].classList.add("text-red-400");
 						ref_label[2].classList.add("text-yellow-400");
 						ref_label[3].classList.add("text-green-400");
 					} else if (index == 2) {
+						this.playAudio(this.$refs.answer3);
 						label.classList.remove("text-yellow-400");
 						ref_label[0].classList.add("text-red-400");
 						ref_label[1].classList.add("text-indigo-400");
 						ref_label[3].classList.add("text-green-400");
 					} else if (index == 3) {
+						this.playAudio(this.$refs.answer4);
 						label.classList.remove("text-green-400");
 						ref_label[0].classList.add("text-red-400");
 						ref_label[1].classList.add("text-indigo-400");
@@ -292,9 +292,9 @@ export default {
 				}
 			}
 		},
-		playAudio(index) {
-			let source = this.audios[index].file;
-			let audio = new Audio(source);
+		playAudio(audio) {
+			audio.pause();
+			audio.currentTime = 0;
 			audio.play();
 		},
 		async playCountDown() {
