@@ -67,7 +67,7 @@
 						>
 							<div></div>
 							<img
-								src="google.png"
+								src="/login/google.png"
 								class="w-5 h-5 inline-block"
 								alt=""
 							/>
