@@ -143,23 +143,10 @@ export default {
     workbox: {
       importScripts: ["/", "assets/"],
       preCaching: [
-        "assets/anwer1.mp3",
-        "assets/anwer2.mp3",
-        "assets/anwer3.mp3",
-        "assets/anwer4.mp3",
-        "assets/backspace.mp3",
-        "assets/button-clicked.mp3",
-        "assets/clock.mp3",
-        "assets/correct.mp3",
-        "assets/keydown.mp3",
-        "assets/switch-theme.mp3",
-        "assets/wrong.mp3"
-      ],
-      offlineAssets: [
-        "assets/anwer1.mp3",
-        "assets/anwer2.mp3",
-        "assets/anwer3.mp3",
-        "assets/anwer4.mp3",
+        "assets/answer1.mp3",
+        "assets/answer2.mp3",
+        "assets/answer3.mp3",
+        "assets/answer4.mp3",
         "assets/backspace.mp3",
         "assets/button-clicked.mp3",
         "assets/clock.mp3",
