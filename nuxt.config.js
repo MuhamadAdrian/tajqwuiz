@@ -139,6 +139,9 @@ export default {
       description: "Quiz Seputar Tajwid",
 
       background_color: "#fdfdfd"
+    },
+    workbox: {
+      preCaching: ["button-clicked.mp3", "switch-theme.mp3"]
     }
   },
 
