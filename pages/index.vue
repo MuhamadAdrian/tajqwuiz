@@ -228,9 +228,9 @@
 		<div class="fixed bottom-0 w-full p-4">
 			<input
 				v-model="name"
-				@click="playAudio(button_clicked)"
-				@keydown="playAudio(keydown)"
-				@keydown.delete="playAudio(backspace)"
+				@click="playAudio($refs.button_clicked)"
+				@keydown="playAudio($refs.keydown)"
+				@keydown.delete="playAudio($refs.backspace)"
 				type="text"
 				class="p-4 rounded-2xl transform-gpu dark:text-gray-100 text-sm border-2 dark:bg-gray-800 border-transparent focus:border-indigo-600 bg-white shadow-light w-full mb-4 scale-on-click"
 				placeholder="Masukan Nama"
@@ -253,6 +253,22 @@
 			@modalClicked="modal_show = !modal_show"
 			:show="modal_show"
 		></ModalJoin>
+		<audio
+			ref="button_clicked"
+			crossorigin="anonymous"
+			src="/button-clicked.mp3"
+		></audio>
+		<audio ref="keydown" crossorigin="anonymous" src="/keydown.mp3"></audio>
+		<audio
+			ref="backspace"
+			crossorigin="anonymous"
+			src="/backspace.mp3"
+		></audio>
+		<audio
+			ref="switch_theme"
+			crossorigin="anonymous"
+			src="/switch-theme.mp3"
+		></audio>
 	</div>
 </template>
 
@@ -269,10 +285,10 @@ export default {
 	},
 	data() {
 		return {
-			button_clicked: require("../static/button-clicked.mp3"),
-			keydown: require("../static/keydown.mp3"),
-			backspace: require("../static/backspace.mp3"),
-			switch_theme: require("../static/switch-theme.mp3"),
+			//button_clicked: require("../static/button-clicked.mp3"),
+			//keydown: require("../static/keydown.mp3"),
+			//backspace: require("../static/backspace.mp3"),
+			//switch_theme: require("../static/switch-theme.mp3"),
 			name: this.$auth.loggedIn ? this.$auth.user.name : "",
 			error_message: null,
 			modal_show: false,
@@ -329,12 +345,13 @@ export default {
 		},
 		toggleTheme() {
 			this.is_dark = !this.is_dark;
-			this.playAudio(this.switch_theme);
+			this.playAudio(this.$refs.switch_theme);
 		},
 
-		playAudio(file) {
-			let sound = new Audio(file);
-			sound.play();
+		playAudio(ref) {
+			ref.pause();
+			ref.currentTime = 0;
+			ref.play();
 		},
 
 		async getQuestions() {
