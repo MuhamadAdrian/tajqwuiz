@@ -128,16 +128,16 @@ export default {
 			choice: null,
 			audios: [
 				{
-					file: require("@/assets/answer1.mp3"),
+					file: require("/answer1.mp3"),
 				},
 				{
-					file: require("@/assets/answer2.mp3"),
+					file: require("/answer2.mp3"),
 				},
 				{
-					file: require("@/assets/answer3.mp3"),
+					file: require("/answer3.mp3"),
 				},
 				{
-					file: require("@/assets/answer4.mp3"),
+					file: require("/answer4.mp3"),
 				},
 			],
 			answer_is_show: false,
@@ -201,7 +201,7 @@ export default {
 			let source = null;
 			if (this.choice) {
 				if (this.choice.is_correct) {
-					source = require("@/assets/correct.mp3");
+					source = require("/correct.mp3");
 					let audio = new Audio(source);
 					audio.play();
 					is_true = true;
@@ -215,7 +215,7 @@ export default {
 						this.$store.dispatch("join/updateScore", payload);
 					}
 				} else {
-					source = require("@/assets/wrong.mp3");
+					source = require("/wrong.mp3");
 					let audio = new Audio(source);
 					audio.play();
 					this.showToast(is_true);

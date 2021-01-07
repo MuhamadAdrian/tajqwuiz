@@ -139,21 +139,6 @@ export default {
       description: "Quiz Seputar Tajwid",
 
       background_color: "#fdfdfd"
-    },
-    workbox: {
-      offlineAssets: [
-        "/answer1.mp3",
-        "/answer2.mp3",
-        "/answer3.mp3",
-        "/answer4.mp3",
-        "/backspace.mp3",
-        "/button-clicked.mp3",
-        "/clock.mp3",
-        "/correct.mp3",
-        "/keydown.mp3",
-        "/switch-theme.mp3",
-        "/wrong.mp3"
-      ]
     }
   },
 

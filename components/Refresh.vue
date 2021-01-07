@@ -11,6 +11,7 @@
 					New content available, please Refresh
 				</p>
 				<button
+					@click="refresh()"
 					class="px-3 py-2 text-sm text-white bg-indigo-500 rounded-md active:bg-indigo-600 transition-colors duration-100"
 				>
 					Refresh
@@ -26,6 +27,12 @@ export default {
 	computed: {
 		app_is_updated() {
 			return this.$store.state.is_updated;
+		},
+	},
+
+	methods: {
+		refresh() {
+			window.location.reload();
 		},
 	},
 };
