@@ -141,7 +141,18 @@ export default {
       background_color: "#fdfdfd"
     },
     workbox: {
-      preCaching: ["button-clicked.mp3", "switch-theme.mp3"]
+      preCaching: [
+        "button-clicked.mp3",
+        "switch-theme.mp3",
+        "answer1.mp3",
+        "answer2.mp3",
+        "answer3.mp3",
+        "answer4.mp3",
+        "backspace.mp3",
+        "clock.mp3",
+        "correct.mp3",
+        "wrong.mp3"
+      ]
     }
   },
 
