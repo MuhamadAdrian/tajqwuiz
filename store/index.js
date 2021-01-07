@@ -74,7 +74,6 @@ export const actions = {
       let time = state.countdown;
       time--;
       commit("SET_COUNTDOWN", time);
-      console.log(state.countdown);
       if (time < 0) {
         clearInterval(interval);
         commit("SET_COUNTDOWN", null);
@@ -88,7 +87,6 @@ export const actions = {
         .$get("/api/questions/random")
         .then(res => {
           const { questions } = res.data;
-          console.log(res.data);
           commit("SET_LOAD_DATA", false);
           commit("SET_QUESTION", questions);
           resolve({ success: true });

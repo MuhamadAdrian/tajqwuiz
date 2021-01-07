@@ -32,8 +32,12 @@ export const actions = {
       .$post(`/api/challanger/updateScore/${rid}`, {
         newScore: scorePlus
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => {
+        return true;
+      })
+      .catch(err => {
+        return false;
+      });
   },
 
   storeData({ commit }, challanger) {
@@ -78,7 +82,6 @@ export const actions = {
         })
         .catch(err => {
           commit("SET_IS_JOINING", false);
-          console.log(err);
           reject(err);
         });
     });
@@ -89,11 +92,9 @@ export const actions = {
       this.$axios
         .$get(`/api/challanger/checkUserHasDone/${rid}`)
         .then(res => {
-          console.log(res);
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });

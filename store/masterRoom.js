@@ -39,7 +39,6 @@ export const actions = {
         .$get(`/api/questions-room-with-answer/${rid}`)
         .then(res => {
           if (res && res.data.question_room.length == 0) {
-            console.log(res.data.question_room.length);
             dispatch("generateRandomQuestion");
             resolve({ success: true });
           }
