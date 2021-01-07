@@ -355,7 +355,7 @@ export default {
 		},
 
 		async getQuestions() {
-			this.playAudio(this.button_clicked);
+			this.playAudio(this.$refs.button_clicked);
 			let offlineEl = document.querySelector("#offline");
 			if (!this.name) {
 				this.error_message =
