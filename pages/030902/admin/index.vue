@@ -1,7 +1,33 @@
 <template>
 	<div class="admin">
-		<div class="container mx-auto px-5 mt-8">
+		<div class="container mx-auto px-5 mt-8 pb-20">
 			<h2 class="text-2xl font-semibold mb-3">#Pertanyaan</h2>
+			<div class="flex items-center mb-2">
+				<button
+					:class="[
+						prev_page_url
+							? 'bg-indigo-500 hover:bg-indigo-600'
+							: 'bg-gray-400 cursor-not-allowed',
+					]"
+					class="px-3 text-white py-2 ruonded-md mr-2 rounded-md transition-colors duration-100"
+					:disabled="!prev_page_url"
+					@click="getPrev()"
+				>
+					Prev
+				</button>
+				<button
+					:class="[
+						next_page_url
+							? 'bg-indigo-500 hover:bg-indigo-600'
+							: 'bg-gray-400 cursor-not-allowed',
+					]"
+					class="px-3 text-white py-2 ruonded-md rounded-md transition-colors duration-100"
+					:disabled="!next_page_url"
+					@click="getNext()"
+				>
+					Next
+				</button>
+			</div>
 			<div class="grid md:grid-cols-4 grid-flow-row space-x-12">
 				<div class="col-span-2">
 					<div
@@ -29,35 +55,18 @@
 							See the answer
 						</button>
 					</div>
-					<div class="flex items-center">
-						<button
-							:class="[
-								prev_page_url ? 'bg-indigo-500' : 'bg-gray-400',
-							]"
-							class="px-3 text-white py-2 ruonded-md"
-							:disabled="!prev_page_url"
-							@click="getPrev()"
-						>
-							Prev
-						</button>
-						<button
-							:class="[
-								next_page_url ? 'bg-indigo-500' : 'bg-gray-400',
-							]"
-							class="px-3 text-white py-2 ruonded-md"
-							:disabled="!next_page_url"
-							@click="getNext()"
-						>
-							Next
-						</button>
-					</div>
 				</div>
 				<div class="col-span-2">
 					<form @submit.prevent="submitHandler">
 						<button
 							class="text-sm text-white rounded-md shadow-md bg-indigo-500 hover:bg-indigo-600 px-3 py-2 mb-3"
 						>
-							Tambahkan
+							<pulse-loader
+								:loading="is_adding"
+								color="#ffffff"
+								size="5px"
+							></pulse-loader>
+							<span v-if="!is_adding">Tambahkan</span>
 						</button>
 						<div class="flex flex-col mb-3">
 							<label class="text-sm text-gray-400 mb-1"
@@ -107,7 +116,9 @@
 			</div>
 		</div>
 		<Toast
-			class="fixed top-0 mt-20"
+			style="left: unset"
+			w="w-72"
+			class="fixed right-0"
 			:text="toast.message"
 			:color="toast.color"
 		></Toast>
@@ -115,9 +126,13 @@
 </template>
 
 <script>
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 export default {
 	middleware: "admin",
 	layout: "admin",
+	components: {
+		PulseLoader,
+	},
 	data() {
 		return {
 			current_page: null,
@@ -137,6 +152,7 @@ export default {
 				message: "",
 				color: "",
 			},
+			is_adding: false,
 		};
 	},
 
@@ -194,6 +210,7 @@ export default {
 
 		async submitHandler() {
 			try {
+				this.is_adding = true;
 				let res = await this.$axios.$post(
 					"/api/questions/add",
 					this.form
@@ -203,6 +220,7 @@ export default {
 					this.load();
 					this.toast.message = "Success Added";
 					this.toast.color = "bg-green-400";
+					this.is_adding = false;
 				} else {
 					this.toast.message = "Something Went Wrong";
 					this.toast.color = "bg-red-400";
@@ -211,6 +229,7 @@ export default {
 					this.toast.message = null;
 				}, 3000);
 			} catch (err) {
+				this.is_adding = false;
 				console.log(err);
 			}
 		},

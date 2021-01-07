@@ -2,7 +2,8 @@
 	<transition name="slide-up">
 		<div
 			v-if="text"
-			class="toast w-full container mx-auto px-4 fixed bottom-0 pb-5 left-0"
+			:class="[w]"
+			class="toast container mx-auto px-4 fixed bottom-0 pb-5 left-0"
 		>
 			<div
 				:class="[color]"
@@ -18,5 +19,17 @@
 <script>
 export default {
 	props: ["text", "color"],
+	props: {
+		text: {
+			type: String,
+		},
+		color: {
+			type: String,
+		},
+		w: {
+			type: String,
+			default: "w-full",
+		},
+	},
 };
 </script>
