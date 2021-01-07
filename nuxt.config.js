@@ -141,7 +141,7 @@ export default {
       background_color: "#fdfdfd"
     },
     workbox: {
-      preCaching: [
+      offlineAssets: [
         "assets/answer1.mp3",
         "assets/answer2.mp3",
         "assets/answer3.mp3",
