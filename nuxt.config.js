@@ -142,17 +142,17 @@ export default {
     },
     workbox: {
       offlineAssets: [
-        "assets/answer1.mp3",
-        "assets/answer2.mp3",
-        "assets/answer3.mp3",
-        "assets/answer4.mp3",
-        "assets/backspace.mp3",
-        "assets/button-clicked.mp3",
-        "assets/clock.mp3",
-        "assets/correct.mp3",
-        "assets/keydown.mp3",
-        "assets/switch-theme.mp3",
-        "assets/wrong.mp3"
+        "/answer1.mp3",
+        "/answer2.mp3",
+        "/answer3.mp3",
+        "/answer4.mp3",
+        "/backspace.mp3",
+        "/button-clicked.mp3",
+        "/clock.mp3",
+        "/correct.mp3",
+        "/keydown.mp3",
+        "/switch-theme.mp3",
+        "/wrong.mp3"
       ]
     }
   },
