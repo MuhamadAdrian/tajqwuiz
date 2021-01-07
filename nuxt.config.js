@@ -141,7 +141,6 @@ export default {
       background_color: "#fdfdfd"
     },
     workbox: {
-      importScripts: ["/", "assets/"],
       preCaching: [
         "assets/answer1.mp3",
         "assets/answer2.mp3",
