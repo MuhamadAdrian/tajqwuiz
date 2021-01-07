@@ -32,6 +32,7 @@ export default {
 
 	methods: {
 		refresh() {
+			this.$store.commit("SET_IS_UPDATED", false);
 			window.location.reload();
 		},
 	},
