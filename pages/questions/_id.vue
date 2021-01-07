@@ -128,16 +128,16 @@ export default {
 			choice: null,
 			audios: [
 				{
-					file: require("/answer1.mp3"),
+					file: require("../../static/answer1.mp3"),
 				},
 				{
-					file: require("/answer2.mp3"),
+					file: require("../../static/answer2.mp3"),
 				},
 				{
-					file: require("/answer3.mp3"),
+					file: require("../../static/answer3.mp3"),
 				},
 				{
-					file: require("/answer4.mp3"),
+					file: require("../../static/answer4.mp3"),
 				},
 			],
 			answer_is_show: false,
@@ -165,7 +165,7 @@ export default {
 
 	watch: {
 		async countdown(time) {
-			let audio = new Audio(require("@/assets/clock.mp3"));
+			let audio = new Audio(require("../../static/clock.mp3"));
 			audio.play();
 			if (time <= 3) {
 				this.countdown_style = "dark:text-red-500 text-red-500 text-lg";
@@ -201,7 +201,7 @@ export default {
 			let source = null;
 			if (this.choice) {
 				if (this.choice.is_correct) {
-					source = require("/correct.mp3");
+					source = require("../../static/correct.mp3");
 					let audio = new Audio(source);
 					audio.play();
 					is_true = true;
@@ -215,7 +215,7 @@ export default {
 						this.$store.dispatch("join/updateScore", payload);
 					}
 				} else {
-					source = require("/wrong.mp3");
+					source = require("../../static/wrong.mp3");
 					let audio = new Audio(source);
 					audio.play();
 					this.showToast(is_true);

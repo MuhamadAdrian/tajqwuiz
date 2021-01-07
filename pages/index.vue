@@ -269,10 +269,10 @@ export default {
 	},
 	data() {
 		return {
-			button_clicked: require("/button-clicked.mp3"),
-			keydown: require("/keydown.mp3"),
-			backspace: require("/backspace.mp3"),
-			switch_theme: require("/switch-theme.mp3"),
+			button_clicked: require("../static/button-clicked.mp3"),
+			keydown: require("../static/keydown.mp3"),
+			backspace: require("../static/backspace.mp3"),
+			switch_theme: require("../static/switch-theme.mp3"),
 			name: this.$auth.loggedIn ? this.$auth.user.name : "",
 			error_message: null,
 			modal_show: false,
