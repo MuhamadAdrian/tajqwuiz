@@ -5,6 +5,7 @@ let countdown = localStorage.getItem("time");
 let player_name = localStorage.getItem("player_name");
 let score = localStorage.getItem("score");
 let page = localStorage.getItem("page");
+let is_updated = localStorage.getItem("is_updated");
 export const state = () => ({
   is_dark: is_dark ? JSON.parse(is_dark) : false,
   loadData: false,
@@ -15,10 +16,14 @@ export const state = () => ({
   page: null,
   player_name: player_name ? JSON.parse(player_name) : null,
   score: score ? JSON.parse(score) : 0,
-  page: page ? JSON.parse(page) : null
+  page: page ? JSON.parse(page) : null,
+  is_updated: is_updated ? JSON.parse(is_updated) : false
 });
 
 export const mutations = {
+  SET_IS_UPDATED(state, payload) {
+    state.is_updated = payload;
+  },
   SET_PLAYER_NAME(state, name) {
     state.player_name = name;
     localStorage.setItem("player_name", JSON.stringify(state.player_name));

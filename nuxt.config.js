@@ -40,7 +40,7 @@ export default {
   css: ["~/assets/main.css"],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ["~/plugins/swListener.js"],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -57,6 +57,7 @@ export default {
 
     "@nuxtjs/auth-next"
   ],
+
   loading: {
     continuous: true,
     color: "#6366f1",
@@ -138,6 +139,35 @@ export default {
       description: "Quiz Seputar Tajwid",
 
       background_color: "#fdfdfd"
+    },
+    workbox: {
+      importScripts: ["/", "assets/"],
+      preCaching: [
+        "assets/anwer1.mp3",
+        "assets/anwer2.mp3",
+        "assets/anwer3.mp3",
+        "assets/anwer4.mp3",
+        "assets/backspace.mp3",
+        "assets/button-clicked.mp3",
+        "assets/clock.mp3",
+        "assets/correct.mp3",
+        "assets/keydown.mp3",
+        "assets/switch-theme.mp3",
+        "assets/wrong.mp3"
+      ],
+      offlineAssets: [
+        "assets/anwer1.mp3",
+        "assets/anwer2.mp3",
+        "assets/anwer3.mp3",
+        "assets/anwer4.mp3",
+        "assets/backspace.mp3",
+        "assets/button-clicked.mp3",
+        "assets/clock.mp3",
+        "assets/correct.mp3",
+        "assets/keydown.mp3",
+        "assets/switch-theme.mp3",
+        "assets/wrong.mp3"
+      ]
     }
   },
 
